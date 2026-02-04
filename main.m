@@ -13,8 +13,14 @@ normOut2 = rawOut2 ./ rawSum;
 normOut3 = rawOut3 ./ rawSum;
 
 ft = fittype('A*sin(B + C*x)^2 + D', ...
+    'independent', 'x', ...
+    'coefficients', {'A', 'B', 'C', 'D'});
+
+p0 = [1, pi/2, 2, 0.5];
+
+[f, gof] = fit(phases, normOut2, ft, "StartPoint", p0);
+
 hold on
 plot(phases, normOut2, "o")
-plot(phases, badNormOut2, "o")
+plot(phases, f(phases))
 hold off
-
