@@ -12,6 +12,7 @@ rawSum = rawOut2 + rawOut3;
 normOut2 = rawOut2 ./ rawSum;
 normOut3 = rawOut3 ./ rawSum;
 
+ft = fittype('A*sin(B + C*x)^2 + D', ...
 hold on
 plot(phases, normOut2, "o")
 plot(phases, badNormOut2, "o")
