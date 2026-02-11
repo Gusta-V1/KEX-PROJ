@@ -1,26 +1,24 @@
-data = readmatrix("20260202\20260202\sweep_H1_phi_average10samples_20260202_120242.csv");
+data = readmatrix("20260205\source-g3theta_target-g4theta.csv");
 
 phases = data(:,1);
-rawOut2 = data(:,2);
-rawOut3 = data(:,4);
+norm1 = data(:,3);
+norm2 = data(:,5);
 
-badNormOut2 = data(:,3);
-badNormOut3 = data(:,5);
+disp(norm1 + norm2)
 
-rawSum = rawOut2 + rawOut3;
-
-normOut2 = rawOut2 ./ rawSum;
-normOut3 = rawOut3 ./ rawSum;
-
-ft = fittype('A*sin(B + C*x)^2 + D', ...
-    'independent', 'x', ...
-    'coefficients', {'A', 'B', 'C', 'D'});
-
-p0 = [1, pi/2, 2, 0.5];
-
-[f, gof] = fit(phases, normOut2, ft, "StartPoint", p0);
-
-hold on
-plot(phases, normOut2, "o")
-plot(phases, f(phases))
-hold off
+% norm1_13 = norm1(1:13);
+% norm2_13 = norm2(1:13);
+% phases_13 = phases(1:13);
+% 
+% ft = fittype('A*sin(B + C*x)^2 + D', ...
+%     'independent', 'x', ...
+%     'coefficients', {'A', 'B', 'C', 'D'});
+% 
+% p0 = [1, pi/4, 2, 0.5];
+% 
+% [f, gof] = fit(phases_13, norm2_13, ft, "StartPoint", p0);
+% 
+% hold on
+% plot(phases_13, norm2_13, "o")
+% plot(phases_13, f(phases_13))
+% hold off
