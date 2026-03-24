@@ -1,16 +1,19 @@
 import json
 import numpy as np
 
-filePath = 'Python_integrated_photonics/12_mode_chip2_calibration4_1.75_2025_11_30_18.99_TEC.json'
+def calcCTterm(phase, MZI_name):
 
-with open(filePath, 'r') as file:
-    data = json.load(file)
+    theta = phase
+    filePath = 'Python_integrated_photonics/12_mode_chip2_calibration4_1.75_2025_11_30_18.99_TEC.json'
 
-#print(data['phase_calibration']['K6_theta']['phase_params'])
+    with open(filePath, 'r') as file:
+        data = json.load(file)
 
-phase_para = data['phase_calibration']['K6_theta']['phase_params']
+    #print(data['phase_calibration']['K6_theta']['phase_params'])
 
-def phase_to_power(theta):
+    phase_para = data['phase_calibration'][str(MZI_name)]['phase_params']
+
+
     A = phase_para['amplitude']
     b = phase_para['omega']
     c = phase_para['phase']
@@ -18,6 +21,7 @@ def phase_to_power(theta):
     
     delta_phase = (theta - c) % 2
     P_mW = delta_phase * np.pi / b
+
+    print('Power for '+MZI_name +'is' +str(P_mW))
     return P_mW
 
-print(phase_to_power(.5))
