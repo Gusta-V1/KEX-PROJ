@@ -28,3 +28,8 @@ def phase2power(phase, MZI_name):
     return P_mW
 
 phase2power(1,'K1_theta')
+
+def power2temp(Q) #Returns delta_T
+    c = 730 # J / (kg*K)
+    m = 2300 * 
+    return Q/(c*m)
