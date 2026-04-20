@@ -9,10 +9,7 @@ def phase2power(phase, MZI_name):
     with open(filePath, 'r') as file:
         data = json.load(file)
 
-    #print(data['phase_calibration']['K6_theta']['phase_params'])
-
     phase_para = data['phase_calibration'][str(MZI_name)]['phase_params']
-
 
     A = phase_para['amplitude']
     b = phase_para['omega']
@@ -22,14 +19,25 @@ def phase2power(phase, MZI_name):
     delta_phase = (theta - c) % 2
     P_mW = delta_phase * np.pi / b
 
-    print('Power for '+MZI_name +' is ' +str(P_mW))
-
+    print(f'Power: {P_mW}')
 
     return P_mW
 
-phase2power(1,'K1_theta')
+def power2temp(Q): #Returns delta_T
+    c = 620                                                     # J / (kg * K) 
+    rho = 5430                                                  # kg / m ** 3
+    V = (1.8 * 10 ** -6) * (120 * 10 ** -9) * (150 * 10 ** -6)  # m ** 3
+    m = rho * V                                                 # kg
 
-def power2temp(Q) #Returns delta_T
-    c = 730 # J / (kg*K)
-    m = 2300 * 
-    return Q/(c*m)
+    T = Q/(c*m) 
+
+    print(f'Temperature: {T}')
+
+    return T
+
+def main():
+    P_mw = phase2power(1,'K1_theta')
+    T = power2temp(P_mw * 10 ** -3)
+
+if __name__ == '__main__':
+    main()
