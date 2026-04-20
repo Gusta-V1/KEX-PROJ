@@ -13,6 +13,7 @@ def plot_csv(file_path):
     phase = []
     out7 = []
     out8 = []
+    
     for row in lst[1:]:
         phase.append(float(row[0]))
         out7.append(float(row[2]))
