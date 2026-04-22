@@ -11,13 +11,7 @@ def phase2power(phases, MZI1name):
     with open(CALIB_FILE, 'r') as file:
         data = json.load(file)
 
-<<<<<<< Updated upstream
-    phase_para = data['phase_calibration'][str(MZI_name)]['phase_params']
-=======
-    #print(data['phase_calibration']['K6_theta']['phase_params'])
-
     phase_para = data['phase_calibration'][str(MZI1name)]['phase_params']
->>>>>>> Stashed changes
 
     A = phase_para['amplitude']
     b = phase_para['omega']
@@ -27,9 +21,6 @@ def phase2power(phases, MZI1name):
     power1 = list()
     for phase in phases:
 
-<<<<<<< Updated upstream
-    print(f'Power: {P_mW}')
-=======
         delta_phase = (phase - c) % 2
         P_mW = delta_phase * np.pi / b
 
@@ -48,33 +39,12 @@ def power2phase(powers,MZI2name):
 
     phase_para = data['phase_calibration'][str(MZI2name)]['phase_params']
 
->>>>>>> Stashed changes
 
     A = phase_para['amplitude']
     b = phase_para['omega']
     c = phase_para['phase']
     d = phase_para['offset']
 
-<<<<<<< Updated upstream
-def power2temp(Q): #Returns delta_T
-    c = 620                                                     # J / (kg * K) 
-    rho = 5430                                                  # kg / m ** 3
-    V = (1.8 * 10 ** -6) * (120 * 10 ** -9) * (150 * 10 ** -6)  # m ** 3
-    m = rho * V                                                 # kg
-
-    T = Q/(c*m) 
-
-    print(f'Temperature: {T}')
-
-    return T
-
-def main():
-    P_mw = phase2power(1,'K1_theta')
-    T = power2temp(P_mw * 10 ** -3)
-
-if __name__ == '__main__':
-    main()
-=======
     power2 = list()
     for power in powers:
 
@@ -138,4 +108,3 @@ if __name__ == '__main__':
     sweepPhase = np.linspace(0, np.pi, sweepSteps)
 
     l = CTterm('K1_theta','H1_theta',sweepPhase)
->>>>>>> Stashed changes
