@@ -46,13 +46,13 @@ def optical_power(theta):
                      [0]])
     T = np.matrix([[np.sin(theta/2), np.cos(theta/2)],
                    [np.cos(theta/2), -np.sin(theta/2)]])
-    W = T * W0
+    W = T * W0 
     return W 
 
 def sweep():
     mzi1 = 'K1_theta'
     mzi2 = 'H1_theta'
-    d = 30
+    D = 30
     N = 40
 
     theta1_lst = [1/N * n for n in range(N + 1)]
@@ -61,13 +61,13 @@ def sweep():
 
     for theta1 in theta1_lst:
         P1 = phase2power(theta1, mzi1)
-        P2 = phase2power(0.5, mzi2) + power_transfer(P1, d)
+        P2 = phase2power(0.5, mzi2) + power_transfer(P1, D)
 
         theta2 = power2phase(P2, mzi2)
         
         W = optical_power(theta2)
         P_lst.append(P1)
-        W_lst.append(W[1,0])
+        W_lst.append(W[1,0]) 
 
     a, b, c, d = FitCos._fit_cosine_general(P_lst, W_lst)
     W_fit = [a * np.cos(b*P + c) + d for P in P_lst]
@@ -75,24 +75,23 @@ def sweep():
     plt.plot(P_lst, W_lst, '-o')
     plt.show()
 
-    P_lst = []
-    W_lst = []
+    P2_lst = []
+    W2_lst = []
 
     for theta1 in theta1_lst:
         P1 = phase2power(theta1, mzi1)
 
         theta2 = 0.5 + b * P1
-        print(theta2)
 
-        P2 = phase2power(theta2, mzi2) + power_transfer(P1, d)
+        P2 = phase2power(theta2, mzi2) + power_transfer(P1, D)
 
         theta2 = power2phase(P2, mzi2)
 
         W = optical_power(theta2)
-        P_lst.append(P1)
-        W_lst.append(W[1,0])
+        P2_lst.append(P1)
+        W2_lst.append(W[1,0])
 
-    plt.plot(P_lst, W_lst, '-o')
+    plt.plot(P2_lst, W2_lst, '-o')
     plt.show()
 
 def main():
