@@ -40,9 +40,10 @@ def power_transfer(P1, D):
 def optical_power(theta):
     W0  = np.array([[1],
                      [0]])
-    T = np.matrix([[np.sin(theta/2), np.cos(theta/2)],
+    T = np.sin(theta/2) * np.array([[np.sin(theta/2), np.cos(theta/2)],
                    [np.cos(theta/2), -np.sin(theta/2)]])
     W = T @ W0
+    W = W
     return W 
 
 def sweep():
@@ -68,7 +69,7 @@ def sweep():
 
     a, b, c, d = FitCos._fit_cosine_general(P1_lst, W2_lst)
 
-    print(np.pi/4)
+    print(0.5 * np.pi)
     print(c)
 
     W2_fit = [a * np.cos(b*P + c) + d for P in P1_lst]
@@ -76,20 +77,22 @@ def sweep():
     plt.plot(P1_lst, W2_fit, '*')
     plt.show()
 
+    W2_target = a * np.cos(c) + d
     W2_comp_lst = []
-
     for theta1 in theta1_lst:
         P1 = phase2power(theta1, mzi1)
-        theta2_comp = theta20 + b * P1
 
-        P2 = phase2power(theta2_comp, mzi2) + power_transfer(P1, D)
-        
+        # Phase correction: shift MZI2 phase to cancel the b*P1 drift term
+        P2_correction = phase2power(theta20 - b * P1, mzi2)
+        P2 = P2_correction + power_transfer(P1, D)
         theta2 = power2phase(P2, mzi2)
-
         W2 = optical_power(theta2)
-        W2_comp_lst.append(W2[1,0]) 
+        W2_comp_lst.append(W2[1, 0])
 
-    plt.plot(P1_lst, W2_comp_lst, '*')
+    plt.plot(P1_lst, W2_lst, '-o', label='uncompensated')
+    plt.plot(P1_lst, W2_comp_lst, '-o', label='compensated')
+    plt.axhline(W2_target, color='r', linestyle='--', label='target')
+    plt.legend()
     plt.show()
 
 
