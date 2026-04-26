@@ -8,7 +8,7 @@ CSV_FILE = os.path.join(BASE_DIR, 'CSVdata\source-h2theta_target-h3theta_100step
 def plot_csv(file_path):
     with open(file_path, 'r') as file:
         reader = csv.reader(file)
-        lst = [i for i in reader]
+        lst = list(reader)
 
     phase = []
     out7 = []
