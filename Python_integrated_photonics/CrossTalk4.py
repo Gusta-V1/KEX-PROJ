@@ -15,7 +15,6 @@ def phase2power(theta, MZI):
     phase_params = CALIB_DATA['phase_calibration'][MZI]['phase_params']
     omega = phase_params['omega']
     theta0 = phase_params['phase']
-    #dtheta = (theta - theta0) % (2 * np.pi)
     dtheta = (theta - theta0)
     P = dtheta / omega
     return P #mW
@@ -28,15 +27,8 @@ def power2phase(P, MZI):
     theta = dtheta + theta0
     return theta 
 
-# def power_transfer(P1, D):
-#     #arbitrary function
-#     TRANS_COEFF = 0.0075
-#     P2 = P1 * np.e ** (-TRANS_COEFF * D)
-#     return P2
-
-def power_transfer(P1, D):
-    #Compensation starts to diverge if less than 10% of heating power is transfered.
-    TRANS_COEFF_2 = 0.003
+def power_transfer(P1):
+    TRANS_COEFF_2 = 0.005
     P2 = P1 * TRANS_COEFF_2
     return P2
 
@@ -57,18 +49,16 @@ def optical_power(theta):
 def sweep():
     mzi1 = 'K1_theta'
     mzi2 = 'H1_theta'
-    D = 200
-    N = 40
+    N = 80
     theta20 = 0.5 * np.pi
 
-    #theta1_lst = [1/N * np.pi * n for n in range(N + 1)]
-    theta1_lst = [(1/40) * np.pi * n for n in range(40 * 6 + 1) ]
+    theta1_lst = [(1/N) * np.pi * n for n in range(N * 3 + 1) ]
     P1_lst = []
     W2_lst = []
 
     for theta1 in theta1_lst:
         P1 = phase2power(theta1, mzi1)
-        P2 = phase2power(theta20, mzi2) + power_transfer(P1, D)
+        P2 = phase2power(theta20, mzi2) + power_transfer(P1)
         theta2 = power2phase(P2, mzi2)
         W2 = optical_power(theta2)
         P1_lst.append(P1)
@@ -94,7 +84,7 @@ def sweep():
         theta2_correction = theta20 - b * P1
         P2_correction = phase2power(theta2_correction, mzi2)
 
-        P2 = P2_correction + power_transfer(P1, D)
+        P2 = P2_correction + power_transfer(P1)
         theta2 = power2phase(P2, mzi2)
         W2 = optical_power(theta2)
         W2_corrected_lst.append(W2[1])
