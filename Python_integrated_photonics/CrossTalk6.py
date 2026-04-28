@@ -15,8 +15,7 @@ def phase2power(theta, MZI):
     phase_params = CALIB_DATA['phase_calibration'][MZI]['phase_params']
     omega = phase_params['omega']
     theta0 = phase_params['phase']
-    #dtheta = (theta - theta0) % (2 * np.pi)
-    dtheta = (theta - theta0)
+    dtheta = (theta - theta0) % (2 * np.pi)
     P = dtheta / omega
     return P #mW
 
@@ -36,7 +35,7 @@ def power2phase(P, MZI):
 
 def power_transfer(P1, D):
     #Compensation starts to diverge if less than 10% of heating power is transfered.
-    TRANS_COEFF_2 = 0.003
+    TRANS_COEFF_2 = 0.1
     P2 = P1 * TRANS_COEFF_2
     return P2
 
@@ -46,13 +45,7 @@ def optical_power(theta):
     T = np.array([[np.sin(theta/2), np.cos(theta/2)],
                    [np.cos(theta/2), -np.sin(theta/2)]])
     W = T @ W0
-    powers = np.abs(W[:, 0]) ** 2 
-    total_power = float(np.sum(powers))
-
-    if total_power <= 0:
-        return np.zeros(2, dtype=float)
-
-    return powers / total_power
+    return W 
 
 def sweep():
     mzi1 = 'K1_theta'
@@ -61,8 +54,7 @@ def sweep():
     N = 40
     theta20 = 0.5 * np.pi
 
-    #theta1_lst = [1/N * np.pi * n for n in range(N + 1)]
-    theta1_lst = [(1/40) * np.pi * n for n in range(40 * 6 + 1) ]
+    theta1_lst = [1/N * np.pi * n for n in range(N + 1)]
     P1_lst = []
     W2_lst = []
 
@@ -72,10 +64,13 @@ def sweep():
         theta2 = power2phase(P2, mzi2)
         W2 = optical_power(theta2)
         P1_lst.append(P1)
-        W2_lst.append(W2[1]) 
+        W2_lst.append(W2[1,0]) 
 
     a, b, c, d = FitCos._fit_cosine_general(P1_lst, W2_lst)
     print('a', a, 'b', b, 'c', c, 'd', d)
+
+    print(c)
+    print(theta20/2)
 
     W2_fit = [a * np.cos(b*P + c) + d for P in P1_lst]
     plt.plot(P1_lst, W2_lst, '-o', label = 'Simulated data',)
@@ -97,7 +92,7 @@ def sweep():
         P2 = P2_correction + power_transfer(P1, D)
         theta2 = power2phase(P2, mzi2)
         W2 = optical_power(theta2)
-        W2_corrected_lst.append(W2[1])
+        W2_corrected_lst.append(W2[1, 0])
 
     plt.plot(P1_lst, W2_lst, '-o', label='uncompensated')
     plt.plot(P1_lst, W2_corrected_lst, '-o', label='compensated')
