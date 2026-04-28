@@ -11,16 +11,16 @@ CALIB_FILE = os.path.join(BASE_DIR, '12_mode_chip2_calibration4_1.75_2025_11_30_
 with open(CALIB_FILE, 'r') as file:
     CALIB_DATA = json.load(file)
 
-def phase2power(theta, MZI):
-    phase_params = CALIB_DATA['phase_calibration'][MZI]['phase_params']
+def phase2power(theta, mzi):
+    phase_params = CALIB_DATA['phase_calibration'][mzi]['phase_params']
     omega = phase_params['omega']
     theta0 = phase_params['phase']
     dtheta = (theta - theta0)
     P = dtheta / omega
-    return P #mW
+    return P
 
-def power2phase(P, MZI):
-    phase_params = CALIB_DATA['phase_calibration'][MZI]['phase_params']
+def power2phase(P, mzi):
+    phase_params = CALIB_DATA['phase_calibration'][mzi]['phase_params']
     omega = phase_params['omega']
     theta0 = phase_params['phase']
     dtheta = P * omega
@@ -43,7 +43,7 @@ def optical_power(theta):
 
     if total_power <= 0:
         return np.zeros(2, dtype=float)
-
+    
     return powers / total_power
 
 def sweep():
