@@ -116,10 +116,48 @@ def draw_line(row_index):
     for p in pts[1:]:
         t.goto(p)
 
+#%%
+def drawPoints(Nmode):
+  xpoints = []
+  ypoints = []
+  hspace = 10
+  vspace = 10
 
-# Draw all lines
-for i in range(N_LINES):
-    draw_line(i)
+  xpoints.append(0) #Left side xpoints
+  for i in range(Nmode-1):
+      xpoints.append(i*hspace)
 
-turtle.update()
-turtle.done()
+  fromListx = xpoints
+
+  #xpoints = xpoints + [(Nmode*2+hspace-x+Nmode*hspace) for x in xpoints.copy()][::-1]
+
+  #Bottom points
+  #xbpoints = xpoints.copy()
+
+  for i in range(Nmode):
+      ypoints.append(i*vspace)
+
+  fromlisty = ypoints
+
+
+  xrpoints = [(Nmode*2+hspace-x+Nmode*hspace) for x in xpoints.copy()][::-1]
+
+  fromlisty = xrpoints[0]
+
+  xpoints = xpoints + [(Nmode*2+hspace-x+Nmode*hspace) for x in xpoints.copy()][::-1]
+
+
+  return xpoints
+# %%
+
+def fromTo(x1,y1,x2,y2):
+  t.penup()
+
+  t.goto(x1.pop(0),y1.pop(0))
+  t.pendown()
+  t.goto(x2.pop(0),y2.pop(0))
+
+  for i in range(len(x1))
+
+
+    
