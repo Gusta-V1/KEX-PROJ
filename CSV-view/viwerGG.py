@@ -42,6 +42,8 @@ def read_csv(fileName):
     plt.legend()
     plt.xlabel('Phase / π')
     plt.ylabel('Normalized Output Power')
+    plt.grid()
+    plt.tight_layout()
     
     plt.savefig(PNG_save_location)
     plt.cla()
