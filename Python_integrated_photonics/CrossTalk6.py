@@ -103,4 +103,6 @@ def sweep():
     plt.show()
 
 if __name__ == '__main__':
-    sweep()
+    #sweep()
+    print(optical_power(0.5 * np.pi))
+    print(optical_power(0.5 * np.pi + 0.04 * np.pi))

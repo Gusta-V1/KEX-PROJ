@@ -36,13 +36,6 @@ def _fit_cosine_general(xdata, ydata, positive=True):
     guess = [guess_amp, 2.*np.pi*guess_freq, fft_phase, guess_offset]
     
     # Define the cosine function based on sign
-    # if positive:
-    #     def cos_func(P, A, b, c, d):
-    #         return A * np.cos(b*P + c) + d
-    # else:
-    #     def cos_func(P, A, b, c, d):
-    #         return -A * np.cos(b*P + c) + d
-        
     if positive:
         def cos_func(P, A, b, c, d):
             return A * np.cos(b*P + c) + d
