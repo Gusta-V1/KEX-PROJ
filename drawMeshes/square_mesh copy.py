@@ -57,16 +57,16 @@ def drawSquareMesh(Nmode):
     all_points = leftPoints + botPoints + rightPoints + topPoints
     xs = [p.x for p in all_points]
     ys = [p.y for p in all_points]
-    margin = 40
+    margin = 20
 
     screen = turtle.Screen()
     width = screen._root.winfo_screenwidth()
     height = screen._root.winfo_screenheight()
 
-    print('Drawing resolution: ',width, 'x',height)
+    print('Drawing resolution: ',height, 'x',width)
 
 
-    turtle.setup(width, height)
+    turtle.setup(height, height)
     turtle.setworldcoordinates(
         min(xs) - margin,
         min(ys) - margin,
@@ -91,7 +91,7 @@ def drawSquareMesh(Nmode):
     t = turtle.Turtle()
     t.hideturtle()
     t.speed(0)
-    t.pensize(2)
+    t.pensize(8)
     t.color("black")
     t.penup()
 
