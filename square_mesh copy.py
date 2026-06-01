@@ -38,20 +38,41 @@ def drawPoints(Nmode):
     return leftPoints, botPoints, rightPoints, topPoints[::-1], Nmode
 
 
+#%%
+
+
 # %%
 def drawSquareMesh(Nmode):
     import turtle
+    print('Nmode = ', Nmode)
 
     if(Nmode % 2 == 0):
         startValue = 1
-        leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode+1)
+        leftPoints, botPoints, rightPoints, topPoints, _ = drawPoints(Nmode)
     else:
         startValue = 0
-        leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode)
+        leftPoints, botPoints, rightPoints, topPoints, _ = drawPoints(Nmode)
 
 
+    all_points = leftPoints + botPoints + rightPoints + topPoints
+    xs = [p.x for p in all_points]
+    ys = [p.y for p in all_points]
+    margin = 40
 
-    leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode)
+    screen = turtle.Screen()
+    width = screen._root.winfo_screenwidth()
+    height = screen._root.winfo_screenheight()
+
+    print('Drawing resolution: ',width, 'x',height)
+
+
+    turtle.setup(width, height)
+    turtle.setworldcoordinates(
+        min(xs) - margin,
+        min(ys) - margin,
+        max(xs) + margin,
+        max(ys) + margin,
+    )
 
     if(Nmode % 2 == 0):
         startValue = 1
@@ -91,7 +112,7 @@ def drawSquareMesh(Nmode):
         t.goto(topPoints[i].x,topPoints[i].y)
         t.penup()
 
-    for i in range(2,len(leftPoints)-2) #HÄÄÄÄE,2): #DÅLIG
+    for i in range(2,len(leftPoints),2): #HÄÄÄÄE,2): DÅLIG
         t.goto(leftPoints[i].x,leftPoints[i].y)
         t.pendown()
         t.goto(botPoints[i-1].x,botPoints[i-1].y)
@@ -184,4 +205,6 @@ def drawSquareMesh(Nmode):
 
     turtle.done()
 
+
 drawSquareMesh(8)
+

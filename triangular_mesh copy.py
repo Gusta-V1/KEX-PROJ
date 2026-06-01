@@ -48,6 +48,26 @@ def drawTriangularMesh(Nmode):
     import turtle
     leftPoints, botPoints, rightPoints = drawPoints(Nmode)
 
+    all_points = leftPoints + botPoints + rightPoints
+    xs = [p.x for p in all_points]
+    ys = [p.y for p in all_points]
+    margin = 40
+
+    screen = turtle.Screen()
+    width = screen._root.winfo_screenwidth()
+    height = screen._root.winfo_screenheight()
+
+    print('Drawing resolution: ',width, 'x',height)
+
+
+    turtle.setup(width, height)
+    turtle.setworldcoordinates(
+        min(xs) - margin,
+        min(ys) - margin,
+        max(xs) + margin,
+        max(ys) + margin,
+    )
+
     # ── canvas / style ──────────────────────────────────────────────────────────
     #WIDTH, HEIGHT = 1400, 650
     #turtle.setup(WIDTH, HEIGHT)
@@ -111,4 +131,4 @@ def drawTriangularMesh(Nmode):
 
     turtle.done()
     # %%
-drawTriangularMesh(8)
+drawTriangularMesh(5)
