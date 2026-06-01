@@ -91,7 +91,7 @@ def drawSquareMesh(Nmode):
         t.goto(topPoints[i].x,topPoints[i].y)
         t.penup()
 
-    for i in range(2,len(leftPoints)-2#HÄÄÄÄE,2): #DÅLIG
+    for i in range(2,len(leftPoints)-2) #HÄÄÄÄE,2): #DÅLIG
         t.goto(leftPoints[i].x,leftPoints[i].y)
         t.pendown()
         t.goto(botPoints[i-1].x,botPoints[i-1].y)
