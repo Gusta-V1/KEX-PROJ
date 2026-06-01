@@ -41,6 +41,16 @@ def drawPoints(Nmode):
 # %%
 def drawSquareMesh(Nmode):
     import turtle
+
+    if(Nmode % 2 == 0):
+        startValue = 1
+        leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode+1)
+    else:
+        startValue = 0
+        leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode)
+
+
+
     leftPoints, botPoints, rightPoints, topPoints, Nmode = drawPoints(Nmode)
 
     if(Nmode % 2 == 0):
@@ -66,23 +76,22 @@ def drawSquareMesh(Nmode):
 
 
 
-
     leftBack = leftPoints[::-1]
     topBack = topPoints[::-1]
-    for i in range(startValue,len(topPoints)-1,2):
+    for i in range(startValue,len(topPoints),2):
         t.goto(leftBack[i+1].x,leftBack[i+1].y)
         t.pendown()
         t.goto(topBack[i].x,topBack[i].y)
         t.penup()
 
     rightBack = rightPoints[::-1]
-    for i in range(startValue,len(topPoints)-1,2):
+    for i in range(startValue,len(topPoints),2):
         t.goto(rightBack[i+1].x,rightBack[i+1].y)
         t.pendown()
         t.goto(topPoints[i].x,topPoints[i].y)
         t.penup()
 
-    for i in range(2,len(leftPoints),2): #DÅLIG
+    for i in range(2,len(leftPoints)-2#HÄÄÄÄE,2): #DÅLIG
         t.goto(leftPoints[i].x,leftPoints[i].y)
         t.pendown()
         t.goto(botPoints[i-1].x,botPoints[i-1].y)
@@ -175,4 +184,4 @@ def drawSquareMesh(Nmode):
 
     turtle.done()
 
-drawSquareMesh(9)
+drawSquareMesh(8)

@@ -44,69 +44,71 @@ def drawPoints(Nmode):
   return leftPoints, botPoints, rightPoints[::-1]
 # %%
 
-import turtle
-leftPoints, botPoints, rightPoints = drawPoints(9)
+def drawTriangularMesh(Nmode):
+    import turtle
+    leftPoints, botPoints, rightPoints = drawPoints(Nmode)
 
-# ── canvas / style ──────────────────────────────────────────────────────────
-#WIDTH, HEIGHT = 1400, 650
-#turtle.setup(WIDTH, HEIGHT)
-turtle.bgcolor("white")
-turtle.title("Triangular Mesh")
-#turtle.tracer(0, 0)          # draw instantly
+    # ── canvas / style ──────────────────────────────────────────────────────────
+    #WIDTH, HEIGHT = 1400, 650
+    #turtle.setup(WIDTH, HEIGHT)
+    turtle.bgcolor("white")
+    turtle.title("Triangular Mesh")
+    #turtle.tracer(0, 0)          # draw instantly
 
-t = turtle.Turtle()
-t.hideturtle()
-t.speed(0)
-t.pensize(2)
-t.color("black")
+    t = turtle.Turtle()
+    t.hideturtle()
+    t.speed(0)
+    t.pensize(2)
+    t.color("black")
 
 
-t.goto(leftPoints[0].x,leftPoints[0].y)
-t.pendown()
-t.goto(rightPoints[0].x,rightPoints[0].y)
-t.penup()
-
-toBotPoints = botPoints[::2]
-for i in range(len(toBotPoints)):
-    t.goto(leftPoints[i+1].x,leftPoints[i+1].y)
+    t.goto(leftPoints[0].x,leftPoints[0].y)
     t.pendown()
-    t.goto(toBotPoints[i].x,toBotPoints[i].y)
+    t.goto(rightPoints[0].x,rightPoints[0].y)
     t.penup()
 
-t.goto(leftPoints[-1].x,leftPoints[-1].y)
-t.pendown()
-t.goto(rightPoints[-1].x,rightPoints[-1].y)
-t.penup()
+    toBotPoints = botPoints[::2]
+    for i in range(len(toBotPoints)):
+        t.goto(leftPoints[i+1].x,leftPoints[i+1].y)
+        t.pendown()
+        t.goto(toBotPoints[i].x,toBotPoints[i].y)
+        t.penup()
 
-fromBotPoints = botPoints[1::2]
-for i in range(len(toBotPoints)):
-    t.goto(fromBotPoints[i].x,fromBotPoints[i].y)
+    t.goto(leftPoints[-1].x,leftPoints[-1].y)
     t.pendown()
-    t.goto(rightPoints[i+1].x,rightPoints[i+1].y)
+    t.goto(rightPoints[-1].x,rightPoints[-1].y)
     t.penup()
 
-#connecta bots
-for i in range(len(toBotPoints)):
-    t.goto(toBotPoints[i].x,toBotPoints[i].y)
-    t.pendown()
-    t.goto(fromBotPoints[i].x,fromBotPoints[i].y)
-    t.penup()
+    fromBotPoints = botPoints[1::2]
+    for i in range(len(toBotPoints)):
+        t.goto(fromBotPoints[i].x,fromBotPoints[i].y)
+        t.pendown()
+        t.goto(rightPoints[i+1].x,rightPoints[i+1].y)
+        t.penup()
 
-modeDist = 10 * 2.5
+    #connecta bots
+    for i in range(len(toBotPoints)):
+        t.goto(toBotPoints[i].x,toBotPoints[i].y)
+        t.pendown()
+        t.goto(fromBotPoints[i].x,fromBotPoints[i].y)
+        t.penup()
 
-gotoLeft = leftPoints[0].x-modeDist
-gotoRight = rightPoints[-1].x+modeDist
+    modeDist = 10 * 2.5
 
-for i in range(len(leftPoints)):
-  t.goto(leftPoints[i].x,leftPoints[i].y)
-  t.pendown()
-  t.goto(gotoLeft,leftPoints[i].y)
-  t.penup()
+    gotoLeft = leftPoints[0].x-modeDist
+    gotoRight = rightPoints[-1].x+modeDist
 
-  t.goto(rightPoints[i].x,rightPoints[i].y)
-  t.pendown()
-  t.goto(gotoRight,rightPoints[i].y)
-  t.penup()
+    for i in range(len(leftPoints)):
+        t.goto(leftPoints[i].x,leftPoints[i].y)
+        t.pendown()
+        t.goto(gotoLeft,leftPoints[i].y)
+        t.penup()
 
-turtle.done()
-# %%
+        t.goto(rightPoints[i].x,rightPoints[i].y)
+        t.pendown()
+        t.goto(gotoRight,rightPoints[i].y)
+        t.penup()
+
+    turtle.done()
+    # %%
+drawTriangularMesh(8)
